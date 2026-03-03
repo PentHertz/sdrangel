@@ -55,8 +55,10 @@ build_cmake_project dsdcc \
   -DBUILD_TOOL=OFF -DUSE_MBELIB=ON
 
 # --- libsigmf ---
+# Old flatbuffers submodule triggers -Wstringop-overflow false positive with GCC 13+
 build_cmake_project libsigmf \
-  https://github.com/f4exb/libsigmf.git new-namespaces
+  https://github.com/f4exb/libsigmf.git new-namespaces \
+  -DCMAKE_CXX_FLAGS=-Wno-error=stringop-overflow
 
 # --- sgp4 ---
 cd "$BUILDDIR"
