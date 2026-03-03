@@ -79,14 +79,19 @@ jobs:
             libqt5charts5-dev libqt5texttospeech5-dev libqt5gamepad5-dev libqt5svg5-dev libfaad-dev libflac-dev zlib1g-dev \
             libusb-1.0-0-dev libhidapi-dev libboost-all-dev libasound2-dev libopencv-dev libopencv-imgcodecs-dev \
             libxml2-dev bison flex ffmpeg libpostproc-dev libavcodec-dev libavformat-dev \
-            libopus-dev libcodec2-dev libairspy-dev libhackrf-dev \
-            libbladerf-dev libsoapysdr-dev libiio-dev libuhd-dev libhamlib-dev libunwind-dev \
+            libavdevice-dev libavfilter-dev libswscale-dev libswresample-dev \
+            libopus-dev libcodec2-dev libairspy-dev libairspyhf-dev libhackrf-dev \
+            librtlsdr-dev libbladerf-dev libsoapysdr-dev libiio-dev libuhd-dev libhamlib-dev libunwind-dev \
             python3-mako python3-cheetah python3-numpy \
             autoconf automake libtool ninja-build libavahi-client-dev libavahi-common-dev libaio-dev
 
       - name: Build SDRplay (native)
         if: ${{ !matrix.qemu && steps.guard.outputs.skip == 'false' }}
         run: bash cmake/ci/build_sdrplay.sh
+
+      - name: Build external dependencies (native)
+        if: ${{ !matrix.qemu && steps.guard.outputs.skip == 'false' }}
+        run: bash cmake/ci/build_externals.sh
 
       - name: Build .deb (native)
         if: ${{ !matrix.qemu && steps.guard.outputs.skip == 'false' }}
@@ -124,12 +129,14 @@ jobs:
                 libqt5charts5-dev libqt5texttospeech5-dev libqt5gamepad5-dev libqt5svg5-dev libfaad-dev libflac-dev zlib1g-dev \
                 libusb-1.0-0-dev libhidapi-dev libboost-all-dev libasound2-dev libopencv-dev libopencv-imgcodecs-dev \
                 libxml2-dev bison flex ffmpeg libpostproc-dev libavcodec-dev libavformat-dev \
-                libopus-dev libcodec2-dev libairspy-dev libhackrf-dev \
-                libbladerf-dev libsoapysdr-dev libiio-dev libuhd-dev libhamlib-dev libunwind-dev \
+                libavdevice-dev libavfilter-dev libswscale-dev libswresample-dev \
+                libopus-dev libcodec2-dev libairspy-dev libairspyhf-dev libhackrf-dev \
+                librtlsdr-dev libbladerf-dev libsoapysdr-dev libiio-dev libuhd-dev libhamlib-dev libunwind-dev \
                 python3-mako python3-cheetah python3-numpy \
                 autoconf automake libtool ninja-build libavahi-client-dev libavahi-common-dev libaio-dev
 
               bash cmake/ci/build_sdrplay.sh
+              bash cmake/ci/build_externals.sh
 
               debuild -i -us -uc -b
             '
