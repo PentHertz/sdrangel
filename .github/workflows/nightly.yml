@@ -84,6 +84,10 @@ jobs:
             python3-mako python3-cheetah python3-numpy \
             autoconf automake libtool ninja-build libavahi-client-dev libavahi-common-dev libaio-dev
 
+      - name: Build SDRplay (native)
+        if: ${{ !matrix.qemu && steps.guard.outputs.skip == 'false' }}
+        run: bash cmake/ci/build_sdrplay.sh
+
       - name: Build .deb (native)
         if: ${{ !matrix.qemu && steps.guard.outputs.skip == 'false' }}
         run: debuild -i -us -uc -b
@@ -124,6 +128,8 @@ jobs:
                 libbladerf-dev libsoapysdr-dev libiio-dev libuhd-dev libhamlib-dev libunwind-dev \
                 python3-mako python3-cheetah python3-numpy \
                 autoconf automake libtool ninja-build libavahi-client-dev libavahi-common-dev libaio-dev
+
+              bash cmake/ci/build_sdrplay.sh
 
               debuild -i -us -uc -b
             '
