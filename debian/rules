@@ -3,7 +3,11 @@
 	dh $@ --parallel --buildsystem=cmake+ninja
 
 override_dh_auto_configure:
+ifeq ($(DEB_HOST_ARCH),amd64)
 	dh_auto_configure -- -DARCH_OPT=nehalem -DENABLE_EXTERNAL_LIBRARIES=AUTO -DDEBUG_OUTPUT=ON -DBUILD_SERVER=OFF
+else
+	dh_auto_configure -- -DENABLE_EXTERNAL_LIBRARIES=AUTO -DDEBUG_OUTPUT=ON -DBUILD_SERVER=OFF
+endif
 
 # delete any external projects (such as libsigmf) that are installed
 # would be better if we could prevent them from being installed in CMakeLists.txt
