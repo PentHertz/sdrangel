@@ -12,7 +12,6 @@ on:
           - all
           - amd64
           - arm64
-          - riscv64
   # Uncomment to enable nightly schedule:
   # schedule:
   #   - cron: '0 3 * * *'
@@ -31,11 +30,6 @@ jobs:
             runner: ubuntu-24.04
             qemu: true
             docker_platform: linux/arm64
-            timeout: 360
-          - arch: riscv64
-            runner: ubuntu-24.04
-            qemu: true
-            docker_platform: linux/riscv64
             timeout: 360
 
     runs-on: ${{ matrix.runner }}
@@ -123,7 +117,7 @@ jobs:
               apt-get -y install build-essential cmake git xxd \
                 devscripts fakeroot debhelper libfftw3-dev qtbase5-dev libopengl-dev libqt5opengl5-dev \
                 qttools5-dev qttools5-dev-tools qtmultimedia5-dev libqt5multimedia5-plugins libqt5websockets5-dev \
-                libqt5quick5 qtbase5-private-dev \
+                libqt5quick5 qtwebengine5-dev qtbase5-private-dev \
                 qml-module-qtlocation qml-module-qtpositioning qml-module-qtquick-window2 qml-module-qtquick-dialogs \
                 qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-layouts qml-module-qtgraphicaleffects \
                 libqt5serialport5-dev qtdeclarative5-dev qtpositioning5-dev qtlocation5-dev \
@@ -131,17 +125,11 @@ jobs:
                 libusb-1.0-0-dev libhidapi-dev libboost-all-dev libasound2-dev libopencv-dev libopencv-imgcodecs-dev \
                 libxml2-dev bison flex ffmpeg libpostproc-dev libavcodec-dev libavformat-dev \
                 libopus-dev libcodec2-dev libairspy-dev libhackrf-dev \
-                libbladerf-dev libsoapysdr-dev libiio-dev libhamlib-dev libunwind-dev \
+                libbladerf-dev libsoapysdr-dev libiio-dev libuhd-dev libhamlib-dev libunwind-dev \
                 python3-mako python3-cheetah python3-numpy \
-                autoconf automake libtool ninja-build libavahi-client-dev libavahi-common-dev libaio-dev \
-                || true
-              # Retry missing packages individually with --ignore-missing (riscv64 may lack some)
-              apt-get -y --ignore-missing install qtwebengine5-dev libuhd-dev || true
+                autoconf automake libtool ninja-build libavahi-client-dev libavahi-common-dev libaio-dev
 
-              # SDRplay only has x86_64 and arm binaries — skip on riscv64
-              if [ "$ARCH" != "riscv64" ]; then
-                bash cmake/ci/build_sdrplay.sh
-              fi
+              bash cmake/ci/build_sdrplay.sh
 
               debuild -i -us -uc -b
             '
