@@ -69,7 +69,7 @@ jobs:
         if: ${{ !matrix.qemu && steps.guard.outputs.skip == 'false' }}
         run: |
           sudo apt-get update
-          sudo apt-get -y install build-essential cmake git xxd \
+          sudo apt-get -y install build-essential cmake git xxd sudo \
             devscripts fakeroot debhelper libfftw3-dev qtbase5-dev libopengl-dev libqt5opengl5-dev \
             qttools5-dev qttools5-dev-tools qtmultimedia5-dev libqt5multimedia5-plugins libqt5websockets5-dev \
             libqt5quick5 qtwebengine5-dev qtbase5-private-dev \
@@ -119,7 +119,7 @@ jobs:
               set -e
 
               apt-get update
-              apt-get -y install build-essential cmake git xxd \
+              apt-get -y install build-essential cmake git xxd sudo \
                 devscripts fakeroot debhelper libfftw3-dev qtbase5-dev libopengl-dev libqt5opengl5-dev \
                 qttools5-dev qttools5-dev-tools qtmultimedia5-dev libqt5multimedia5-plugins libqt5websockets5-dev \
                 libqt5quick5 qtwebengine5-dev qtbase5-private-dev \
