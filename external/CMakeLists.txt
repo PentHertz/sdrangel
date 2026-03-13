@@ -1121,6 +1121,11 @@ if (LINUX)
         set(LIMESUITE_EXTERNAL ON CACHE INTERNAL "")
         set(LIMESUITE_INCLUDE_DIR "${EXTERNAL_BUILD_LIBRARIES}/limesuite/src/limesuite/src" CACHE INTERNAL "")
         set(LIMESUITE_LIBRARY "${EXTERNAL_BUILD_LIBRARIES}/lib${LIB_SUFFIX}/libLimeSuite.so" CACHE INTERNAL "")
+        # SIMD flags are x86-only; skip on ARM/aarch64
+        set(LIMESUITE_SIMD_ARGS "")
+        if (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64|i[3-6]86")
+            set(LIMESUITE_SIMD_ARGS -DENABLE_SIMD_FLAGS=SSE3)
+        endif ()
         ExternalProject_Add(limesuite
                 GIT_REPOSITORY https://github.com/myriadrf/LimeSuite.git
                 GIT_TAG ${LIMESUITE_TAG}
@@ -1134,7 +1139,7 @@ if (LINUX)
                   -DENABLE_QUICKTEST=OFF
                   -DENABLE_EXAMPLES=OFF
                   -DENABLE_LIME_UTIL=OFF
-                  -DENABLE_SIMD_FLAGS=SSE3
+                  ${LIMESUITE_SIMD_ARGS}
                 BUILD_BYPRODUCTS "${LIMESUITE_LIBRARY}"
                 INSTALL_COMMAND ""
                 TEST_COMMAND ""
@@ -1313,6 +1318,11 @@ if (WIN32 OR APPLE)
         if (WIN32)
             set(LIMESUITE_LIBRARY "${SDRANGEL_BINARY_LIB_DIR}/LimeSuite.lib" CACHE INTERNAL "")
         endif ()
+        # SIMD flags are x86-only; skip on ARM/aarch64
+        set(LIMESUITE_SIMD_ARGS "")
+        if (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64|i[3-6]86")
+            set(LIMESUITE_SIMD_ARGS -DENABLE_SIMD_FLAGS=SSE3)
+        endif ()
         ExternalProject_Add(limesuite
                 GIT_REPOSITORY https://github.com/myriadrf/LimeSuite.git
                 GIT_TAG ${LIMESUITE_TAG}
@@ -1327,7 +1337,7 @@ if (WIN32 OR APPLE)
                 -DENABLE_QUICKTEST=OFF
                 -DENABLE_EXAMPLES=OFF
                 -DENABLE_LIME_UTIL=ON
-                -DENABLE_SIMD_FLAGS=SSE3
+                ${LIMESUITE_SIMD_ARGS}
                 -DENABLE_FX3=ON
                 -DFX3_SDK_PATH=${FX3SDK_DIR}
                 -DLIBUSB_1_LIBRARY=${LIBUSB_LIBRARIES}
