@@ -159,6 +159,8 @@
 #include "SWGFreeDVDemodSettings.h"
 #include "SWGFreeDVModReport.h"
 #include "SWGFreeDVModSettings.h"
+#include "SWGFreqDisplayReport.h"
+#include "SWGFreqDisplaySettings.h"
 #include "SWGFreqScannerActions.h"
 #include "SWGFreqScannerChannelState.h"
 #include "SWGFreqScannerFrequency.h"
@@ -226,6 +228,10 @@
 #include "SWGMapItem_2.h"
 #include "SWGMapReport.h"
 #include "SWGMapSettings.h"
+#include "SWGMeshtasticDemodReport.h"
+#include "SWGMeshtasticDemodSettings.h"
+#include "SWGMeshtasticModReport.h"
+#include "SWGMeshtasticModSettings.h"
 #include "SWGMetisMISOSettings.h"
 #include "SWGMorseDecoderActions.h"
 #include "SWGMorseDecoderSettings.h"
@@ -1121,6 +1127,16 @@ namespace SWGSDRangel {
       obj->init();
       return obj;
     }
+    if(QString("SWGFreqDisplayReport").compare(type) == 0) {
+      SWGFreqDisplayReport *obj = new SWGFreqDisplayReport();
+      obj->init();
+      return obj;
+    }
+    if(QString("SWGFreqDisplaySettings").compare(type) == 0) {
+      SWGFreqDisplaySettings *obj = new SWGFreqDisplaySettings();
+      obj->init();
+      return obj;
+    }
     if(QString("SWGFreqScannerActions").compare(type) == 0) {
       SWGFreqScannerActions *obj = new SWGFreqScannerActions();
       obj->init();
@@ -1453,6 +1469,26 @@ namespace SWGSDRangel {
     }
     if(QString("SWGMapSettings").compare(type) == 0) {
       SWGMapSettings *obj = new SWGMapSettings();
+      obj->init();
+      return obj;
+    }
+    if(QString("SWGMeshtasticDemodReport").compare(type) == 0) {
+      SWGMeshtasticDemodReport *obj = new SWGMeshtasticDemodReport();
+      obj->init();
+      return obj;
+    }
+    if(QString("SWGMeshtasticDemodSettings").compare(type) == 0) {
+      SWGMeshtasticDemodSettings *obj = new SWGMeshtasticDemodSettings();
+      obj->init();
+      return obj;
+    }
+    if(QString("SWGMeshtasticModReport").compare(type) == 0) {
+      SWGMeshtasticModReport *obj = new SWGMeshtasticModReport();
+      obj->init();
+      return obj;
+    }
+    if(QString("SWGMeshtasticModSettings").compare(type) == 0) {
+      SWGMeshtasticModSettings *obj = new SWGMeshtasticModSettings();
       obj->init();
       return obj;
     }
